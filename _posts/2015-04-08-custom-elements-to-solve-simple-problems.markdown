@@ -5,17 +5,18 @@ date:   2015-04-08 12:53:09
 categories: semantic-ui, custom-elements, ampersand, backbone
 ---
 
-[Webcomponents](http://webcomponents.org/) always seem just over the horizon, really cool but not quite ready to use in production. 
- I'm starting to worry that the full spec never will, and [I'm not alone](http://developer.telerik.com/featured/web-components-arent-ready-production-yet/).
-However, I'm here to tell you about something that *does* seem ready to go today, Custom Elements.  Unlike Web Component's claims,
+[Webcomponents](http://webcomponents.org/) always seem just over the horizon, really cool but [not quite ready to use in production.](http://developer.telerik.com/featured/web-components-arent-ready-production-yet/)
+ I'm starting to worry that the full spec never will, as we continue to get nothing but silence from IE and Safari. 
+However, I'm here to tell you about something that *does* seem ready to go today, Custom Elements.  Unlike the claims of Web Components, 
 I'm not going to tell you that Custom Elements are going to revolutionize your development life and change the web, but 
 I am going to hopefully show you how they can be a useful tool in your development toolbox.
 
 
-## Custom Elements
+## Some Background
 Custom Elements are an important part of the webcomponents spec, letting you define (as the name implies), Custom Elements.  There is an 
 [excellent introduction article](http://www.html5rocks.com/en/tutorials/webcomponents/customelements/) to them, and I encourage you to read it 
-to get a good overview of them.  I want to show you some useful examples of using them today.
+to get a good overview of them.  There is also an article similar to this one [talking about production ready Custom Elements](http://developer.telerik.com/featured/web-components-ready-production/). 
+I want to expand on that and show you some useful examples of using them today.
 
 The whole point of making your own Custom Elements, beyond making your HTML more semantic, is that you can add your own 
 behavior or methods to those elements.  This can be useful, as long as we don't try to do too much.  
@@ -138,14 +139,15 @@ return document.registerElement('semantic-dropdown', {
 Then, when we're using our dropdown, we don't need to wrap it up in a `.dropdown()` call, we can just call `toggle()`.  
 
 {% highlight javascript %}
-// Careful this won't work and will call Jquery's toggle method!
+// Careful this won't work and will call jQuery's toggle method!
 $('semantic-dropdown').toggle(); 
+// this is how you want to do it
 $('semantic-dropdown')[0].toggle();
-// or
+// or leave jQuery out of it altogether
 document.querySelector('semantic-dropdown').toggle();
 {% endhighlight %}
 
-Notice the warnings above.  Jquery doesn't have an easy way to invoke custom methods on elements because IMO there aren't that 
+Notice the comments above.  jQuery doesn't have an easy way to invoke custom methods on elements because IMO there aren't that 
 many interesting ones to invoke.  
 
 Put it all together and you can get a working custom dropdown like the one below.  Go ahead and open that inspector on the element below. 
@@ -279,10 +281,18 @@ The main difference here with above is that we're using event bubbling to catch 
  get the clicked-on node, grab the attributes from there and use them to fire off our Radio command.
 Again, notice how we're using the `detachedCallback` to be good citizens and unregister our listener when the elements are removed.
 
+## What Custom Elements are not
+Custom Elements are often lumped together with the other specs of Web Components (Shadow DOM, HTML Imports, and Templates) when 
+people talk about Web Components, and rightfully so, the power of them all working together does indeed promise to change
+the way we develop web applications.  
+
+Custom Elements do not allow you to easily build components with their own markup and custom styles.  Sure you can use `.innerHTML` and put some 
+DOM in there, but its not encapsulated and isolated from other parts of your page.  This is what Shadow DOM does and its the 
+coolest part of Web Components, but also the least supported by certain browsers, and hardest to Polyfill.    
 
 ## Are they really ready for production?
 
-This is the big question about webcomponents and usually the answer is "not yet" but Custom Elements are a different story.  Github 
+This is the big question about webcomponents and usually the answer is "not yet" but Custom Elements are a [different story](http://developer.telerik.com/featured/web-components-ready-production/).  Github 
 [has been using Custom Elements](http://webcomponents.org/articles/interview-with-joshua-peek/)
 in production for some time now and according to the article, the reason is the polyfill is small, simple and covers most edge cases, which is 
 much harder to do for a more bleeding edge technology like shadow DOM.  The polyfill is [unfortunately still required](http://caniuse.com/#feat=custom-elements) but
@@ -291,6 +301,6 @@ is relatively small (only about 10k minified)
 ## Conclusion
 I hope I have shown you a new tool for your development toolbox.  To me, it seems we get really excited about the full 
 web components spec and are let down when we find out it's not quite ready to go.  So we end up not using them at all, but
-Custom Elements are much more mature and can be used today to solve some problems.   
+Custom Elements are much more mature and can be used today to easily solve some problems.   
 
 [jekyll]:      http://jekyllrb.com
